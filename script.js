@@ -51,7 +51,9 @@ function displayBooks(book) {
   let pages = document.createElement("p");
   let read = document.createElement("p");
   let removeButton = document.createElement("button");
+  let readButton = document.createElement("button");
   let newBook = document.createElement("div");
+  read.className = "readStatus";
   newBook.dataset.id = book.id;
   newBook.className = "books";
   container.appendChild(newBook);
@@ -60,16 +62,19 @@ function displayBooks(book) {
   newBook.appendChild(pages);
   newBook.appendChild(read);
   newBook.appendChild(removeButton);
+  newBook.appendChild(readButton);
   title.innerText = book.title;
   author.innerText = book.author;
   pages.innerText = book.pages + " pages";
   if (book.read == true) {
     read.innerText = "Status: Read";
-  } else {
+  } else if (book.read == false) {
     read.innerText = "Status: Not read";
   }
   removeButton.innerText = "Remove";
   removeButton.addEventListener("click", removeBook);
+  readButton.innerText = "Toggle Reading Status";
+  readButton.addEventListener("click", readBook);
 }
 
 function removeBook(event) {
@@ -77,6 +82,22 @@ function removeBook(event) {
     if (event.target.parentElement.dataset.id == myLibrary[i].id) {
       event.target.parentElement.remove();
       const removed = myLibrary.splice(i, 1);
+      console.log(myLibrary);
+    }
+  }
+}
+
+function readBook(event) {
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (event.target.parentElement.dataset.id == myLibrary[i].id) {
+      let read = event.target.parentElement.querySelector(".readStatus");
+      if (read.innerText == "Status: Read") {
+        read.innerText = "Status: Not read";
+        myLibrary[i].read = false;
+      } else {
+        read.innerText = "Status: Read";
+        myLibrary[i].read = true;
+      }
       console.log(myLibrary);
     }
   }
