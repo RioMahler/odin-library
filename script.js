@@ -19,12 +19,14 @@ submitButton.addEventListener("click", submitData);
 
 const myLibrary = [];
 
-function Book(author, title, pages, read) {
-  this.id = crypto.randomUUID();
-  this.author = author;
-  this.title = title;
-  this.pages = pages;
-  this.read = read;
+class Book {
+  constructor(author, title, pages, read) {
+    this.id = crypto.randomUUID();
+    this.author = author;
+    this.title = title;
+    this.pages = pages;
+    this.read = read;
+  }
 }
 
 function addBookToLibrary(authorName, titleName, pageCount, readStatus) {
@@ -82,7 +84,6 @@ function removeBook(event) {
     if (event.target.parentElement.dataset.id == myLibrary[i].id) {
       event.target.parentElement.remove();
       const removed = myLibrary.splice(i, 1);
-      console.log(myLibrary);
     }
   }
 }
@@ -98,7 +99,6 @@ function readBook(event) {
         read.innerText = "Status: Read";
         myLibrary[i].read = true;
       }
-      console.log(myLibrary);
     }
   }
 }
