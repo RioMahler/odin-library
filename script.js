@@ -7,6 +7,49 @@ const title = document.getElementById("title");
 const pages = document.getElementById("pages");
 const read = document.getElementById("read");
 
+let authorError = document.querySelector(".authorError");
+let titleError = document.querySelector(".titleError");
+let pageError = document.querySelector(".pagesError");
+
+author.addEventListener("input", (e) => {
+  if (author.validity.valid) {
+    authorError.textContent = "";
+    authorError.className = "error";
+  } else {
+    showError();
+  }
+});
+title.addEventListener("input", (e) => {
+  if (title.validity.valid) {
+    titleError.textContent = "";
+    titleError.className = "error";
+  } else {
+    showError();
+  }
+});
+pages.addEventListener("input", (e) => {
+  if (pages.validity.valid) {
+    pageError.textContent = "";
+    pageError.className = "error";
+  } else {
+    showError();
+  }
+});
+
+function showError() {
+  if (author.validity.valueMissing) {
+    authorError.textContent = "You need to enter an author.";
+  }
+  if (title.validity.valueMissing) {
+    titleError.textContent = "You need to enter a title.";
+  }
+  if (pages.validity.valueMissing) {
+    pageError.textContent = "You need to enter the pagecount.";
+  } else if (pages.validity.patternMismatch) {
+    pageError.textContent = "Pagecount has to be a whole number.";
+  }
+}
+
 newBookButton.addEventListener("click", () => {
   dialog.showModal();
 });
@@ -42,8 +85,11 @@ function submitData(event) {
   let titleName = title.value;
   let pageCount = pages.value;
   let readStatus = read.checked;
-  addBookToLibrary(authorName, titleName, pageCount, readStatus);
-  dialog.close();
+
+  if (author.validity.valid && title.validity.valid && pages.validity.valid) {
+    addBookToLibrary(authorName, titleName, pageCount, readStatus);
+    dialog.close();
+  }
   event.preventDefault();
 }
 
